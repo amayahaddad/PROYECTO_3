@@ -8,6 +8,8 @@ const getButton = document.getElementById('get')
 const nameSpan = document.getElementById('cityName')
 const countrySpan = document.getElementById('country')
 const tempSpan = document.getElementById('temp')
+const descriptionSpan = document.getElementById('description')
+const mainDescriptionSpan = document.getElementById('mainDescription')
 const maxTempSpan = document.getElementById('maxTemp')
 const minTempSpan = document.getElementById('minTemp')
 const context = document.getElementById('grafico')
@@ -15,6 +17,8 @@ const windSpan = document.getElementById('wind')
 const sensTermSpan = document.getElementById('sensTerm')
 const humiditySpan = document.getElementById('humidity')
 const visibilitySpan = document.getElementById('visibility')
+
+
 
 const readCity = async (event) => {   
 event.preventDefault()
@@ -28,6 +32,7 @@ const hour = await daily.json()
 
 console.log(hour)
 
+
 nameSpan.innerText = data.name
 tempSpan.innerText = Math.floor(data.main.temp)
 countrySpan.innerText = data.sys.country
@@ -38,9 +43,16 @@ sensTermSpan.innerText = Math.floor(data.main.feels_like)
 humiditySpan.innerText = data.main.humidity
 visibilitySpan.innerText = data.visibility
 
+const weatherDescription = data.weather[0].description;
+const mainWeatherDescription = data.weather[0].main;
+descriptionSpan.innerText = weatherDescription;
+mainDescriptionSpan.innerText = mainWeatherDescription;
+
+
 const formatData = hour.list.slice(0,8)
 
 console.log(formatData)
+
 
 const graphData = {
     name: 'Temperatura por horas', 
@@ -53,8 +65,16 @@ formatData.forEach(element => {
 });
 renderGraph(graphData, context)
 }
+  
 
 getButton.addEventListener('click', readCity)
+
+function googleTranslateElementInit() {
+    new google.translate.TranslateElement(
+      { pageLanguage: 'en', includedLanguages: 'es', layout: google.translate.TranslateElement.InlineLayout.SIMPLE },
+      'google_translate_element'
+    );
+  }
 
 
 
